@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  icap-app:
+    build:
+      context: . # carpeta donde está Dockerfile
+      dockerfile: Dockerfile
+    container_name: icap-app
+    ports:
+      - "6060:6060"
+    env_file:
+      - .env
+    environment:
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - JWT_EXPIRATION=36000
+    depends_on:
+      - icap-db
+
+  icap-db:
+    image: postgres:15-alpine
+    container_name: icap-db
+    environment:
+      - POSTGRES_DB=iap_prod
+      - POSTGRES_USER=${SPRING_DATASOURCE_USERNAME}
+      - POSTGRES_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
