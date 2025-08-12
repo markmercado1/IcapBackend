@@ -192,6 +192,33 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<!-- Filtra todo excepto application-prod.properties y mensajes -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>application-prod.properties</exclude>
+					<exclude>messages*.properties</exclude>
+				</excludes>
+			</resource>
+			<!-- Copia application-prod.properties sin filtrar -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>application-prod.properties</include>
+				</includes>
+			</resource>
+			<!-- Copia archivos messages*.properties sin filtrar -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>messages*.properties</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<!-- Spring Boot Plugin -->
 			<plugin>
@@ -227,6 +254,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
 	</build>
 
 </project>
